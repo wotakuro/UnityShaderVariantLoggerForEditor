@@ -5,9 +5,9 @@
 
 static IUnityProfilerCallbacks* s_UnityProfilerCallbacks = NULL;
 
-static bool s_executeFlag = false;
+static bool s_executeFlag = true;
 static int s_frameIndex = 0;
-static std::string s_filename;
+static std::string s_filename = "Variant.log";
 
 static void UNITY_INTERFACE_API OnProfilerEvent(const UnityProfilerMarkerDesc* markerDesc, UnityProfilerMarkerEventType eventType, unsigned short eventDataCount, const UnityProfilerMarkerData* eventData, void* userData)
 {
@@ -33,7 +33,6 @@ static void UNITY_INTERFACE_API OnProfilerEvent(const UnityProfilerMarkerDesc* m
                 "," <<
                 // keyword
                 reinterpret_cast<const char*>(eventData[2].ptr) << std::endl;
-            file_out << std::endl;
             file_out.close();
         }
         break;
@@ -42,7 +41,7 @@ static void UNITY_INTERFACE_API OnProfilerEvent(const UnityProfilerMarkerDesc* m
 }
 
 
-extern "C" void _ShaderCompileWatcherForEditorSetupFile(const char* file)
+extern "C" void UNITY_INTERFACE_EXPORT  _ShaderCompileWatcherForEditorSetupFile(const char* file)
 {
     s_filename = file;
     std::ofstream file_out;
@@ -50,11 +49,11 @@ extern "C" void _ShaderCompileWatcherForEditorSetupFile(const char* file)
     file_out <<"frameIdx,Shader,exec(ms),isWarmupCall,pass,stage,keyword,"<<std::endl ;
     file_out.close();
 }
-extern "C" void _ShaderCompileWatcherForEditorSetFrame(int idx)
+extern "C" void UNITY_INTERFACE_EXPORT _ShaderCompileWatcherForEditorSetFrame(int idx)
 {
     s_frameIndex = idx;
 }
-extern "C" void _ShaderCompileWatcherForEditorSetEnable(bool enable)
+extern "C" void UNITY_INTERFACE_EXPORT _ShaderCompileWatcherForEditorSetEnable(bool enable)
 {
     s_executeFlag = enable;
 }
@@ -63,11 +62,13 @@ extern "C" void _ShaderCompileWatcherForEditorSetEnable(bool enable)
 
 static void UNITY_INTERFACE_API SetupCreateMarkerCallback(const UnityProfilerMarkerDesc* markerDesc, void* userData)
 {
+
     s_UnityProfilerCallbacks->RegisterMarkerEventCallback(markerDesc, OnProfilerEvent, NULL);
 }
 
 extern "C" void UNITY_INTERFACE_EXPORT UNITY_INTERFACE_API UnityPluginLoad(IUnityInterfaces * unityInterfaces)
 {
+
     s_UnityProfilerCallbacks = unityInterfaces->Get<IUnityProfilerCallbacks>();
     s_UnityProfilerCallbacks->RegisterCreateMarkerCallback(&SetupCreateMarkerCallback, NULL);
 }

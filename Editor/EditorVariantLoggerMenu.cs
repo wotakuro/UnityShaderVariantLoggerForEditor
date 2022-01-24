@@ -29,7 +29,10 @@ namespace UTJ.VariantLogger
             }
             var config = ReadConfigData();
             EnableFlag = config.flag;
-            Menu.SetChecked(MenuName, EnableFlag);
+            EditorApplication.delayCall += () =>
+            {
+                Menu.SetChecked(MenuName, EnableFlag);
+            };
         }
 
 

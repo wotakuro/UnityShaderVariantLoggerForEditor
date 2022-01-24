@@ -40,17 +40,19 @@ namespace UTJ.VariantLogger
             SetupLogger();
         }
 
-        private static void SetupLogger()
+        public static void SetupLogger()
         {
+                
             ShaderVariantLoggerInterface.SetEnable(true);
             ShaderVariantLoggerInterface.SetFrame(0);
+            
 
             if (!Directory.Exists(SaveDir))
             {
                 Directory.CreateDirectory(SaveDir);
             }
             var currentTime = System.DateTime.Now;
-            ShaderVariantLoggerInterface.SetupFile( SaveDir + currentTime.ToString("/yyyyMMdd_HHmmss.text"));
+            ShaderVariantLoggerInterface.SetupFile( SaveDir + "/" +currentTime.ToString("yyyyMMdd_HHmmss") + ".log");
         }
 
         public static void RemoveShaders() {

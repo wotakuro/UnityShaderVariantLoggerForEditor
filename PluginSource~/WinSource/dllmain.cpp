@@ -4,6 +4,9 @@
 // Windows ヘッダー ファイル
 #include <windows.h>
 
+#include <iostream>
+#include <fstream>
+
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
@@ -18,6 +21,12 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     case DLL_PROCESS_DETACH:
         break;
     }
+    std::ofstream file_out;
+    file_out.open("Test.log", std::ios_base::app);
+    file_out << "hogehoge\n";
     return TRUE;
 }
+
+
+
 
