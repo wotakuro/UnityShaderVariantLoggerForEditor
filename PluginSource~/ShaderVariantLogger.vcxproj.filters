@@ -13,16 +13,16 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="ソース ファイル\WinSOurce">
-      <UniqueIdentifier>{dc9d4202-8484-433f-8ece-e7ac7d155e6b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ヘッダー ファイル\UnityPluginHeaders">
       <UniqueIdentifier>{f4d8e897-be2c-46b7-8e89-79c1ab64f24f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\WinSource">
+      <UniqueIdentifier>{dc9d4202-8484-433f-8ece-e7ac7d155e6b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinSource\dllmain.cpp">
-      <Filter>ソース ファイル\WinSOurce</Filter>
+      <Filter>ソース ファイル\WinSource</Filter>
     </ClCompile>
     <ClCompile Include="Source\Program.cpp">
       <Filter>ソース ファイル</Filter>

@@ -21,10 +21,12 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     case DLL_PROCESS_DETACH:
         break;
     }
-    std::ofstream file_out;
-    file_out.open("Test.log", std::ios_base::app);
-    file_out << "hogehoge\n";
     return TRUE;
+}
+
+long GetThreadId() {
+
+    return GetCurrentThreadId();
 }
 
 
