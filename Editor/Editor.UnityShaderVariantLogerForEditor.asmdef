@@ -1,0 +1,18 @@
+{
+    "name": "Editor.UnityShaderVariantLogerForEditor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2f711816e3053da42b1e0cdc220d5b59"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

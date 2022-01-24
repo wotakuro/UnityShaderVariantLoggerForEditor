@@ -1,0 +1,7 @@
+{
+  "name": "com.utj.shadervariantlogger",
+  "displayName": "UnityShaderVariantLoggerForEditor",
+  "description": "Auto logging ShaderVariant when compiling.",
+  "version": "0.5.0",
+  "unity": "2020.3"
+}
