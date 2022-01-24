@@ -2,6 +2,8 @@
 UnityEditor上で実行した時に、Shaderコンパイルをログに書き出してます。<br />
 そのログをもとにイイ感じにShaderVariantCollectionを作れるようにします。
 
+(今はWindowsOnly)
+
 # 利用方法
 メニューの 「Tools/UTJ/ShaderVariantLogger/Enable」にチェックを入れます。<br />
 その状態でEditor上でプレイをしていると、Editor上でのコンパイルログが「Library/com.utj.shadervariantlogger/logs」以下に蓄積されます<br />

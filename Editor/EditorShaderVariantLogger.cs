@@ -9,7 +9,7 @@ namespace UTJ.VariantLogger
 
     internal class EditorShaderVariantLogger
     {
-        private const string SaveDir = "Library/com.utj.shadervariantlogger/logs";
+        internal static readonly string SaveDir = "Library/com.utj.shadervariantlogger/logs";
 
         [InitializeOnLoadMethod]
         public static void Init()
