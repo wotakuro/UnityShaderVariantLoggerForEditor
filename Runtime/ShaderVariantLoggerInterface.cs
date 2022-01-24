@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -7,6 +8,7 @@ namespace UTJ.VariantLogger
 {
     public class ShaderVariantLoggerInterface
     {
+
         const string DllName = "ShaderVariantLogger";
         [DllImport(DllName)]
         private extern static void _ShaderCompileWatcherForEditorSetupFile(string file);
@@ -17,6 +19,8 @@ namespace UTJ.VariantLogger
         [DllImport(DllName)]
         private extern static void _ShaderCompileWatcherForEditorSetEnable(bool enable);
 
+        [DllImport(DllName)]
+        private extern static bool _ShaderCompileWatcherForEditorGetEnable();
 
         public static void SetupFile(string file)
         {
@@ -30,5 +34,12 @@ namespace UTJ.VariantLogger
         {
             _ShaderCompileWatcherForEditorSetEnable(flag);
         }
+
+        public static bool GetEnable()
+        {
+            return _ShaderCompileWatcherForEditorGetEnable();
+        }
     }
 }
+
+#endif
