@@ -1,20 +1,20 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:VisualElement name="GeneralConfig">
+    <ui:VisualElement name="GeneralConfig" style="flex-shrink: 0;">
         <ui:Label text="Shader Compile Log at Editor" display-tooltip-when-elided="true" />
         <ui:Toggle label="Enabled" name="LoggerEnable" style="margin-left: 15px;" />
     </ui:VisualElement>
-    <ui:VisualElement name="CreateAsset">
+    <ui:VisualElement name="CreateAsset" style="flex-shrink: 0;">
         <ui:Label text="Create ShaderVariantCollection from logs" display-tooltip-when-elided="true" />
         <uie:ObjectField label="ShaderVariantCollection" name="TargetAsset" style="margin-left: 15px;" />
         <ui:Toggle label="Delete logs after adding" name="DeleteFlag" style="margin-left: 15px;" />
         <ui:Button text="Add Variants from logs" display-tooltip-when-elided="true" name="AddExec" style="margin-left: 15px; margin-right: 15px;" />
     </ui:VisualElement>
-    <ui:VisualElement style="height: 10px;" />
-    <ui:VisualElement name="LogArea">
+    <ui:VisualElement style="height: 10px; flex-shrink: 0;" />
+    <ui:VisualElement name="LogArea" style="flex-shrink: 0;">
         <ui:VisualElement style="flex-wrap: nowrap; flex-direction: row; justify-content: space-between;">
             <ui:Label text="Logs" display-tooltip-when-elided="true" />
             <ui:Button text="Open Directory" display-tooltip-when-elided="true" name="OpenDir" style="align-items: auto; justify-content: flex-start; flex-direction: row; flex-wrap: nowrap;" />
         </ui:VisualElement>
-        <ui:ListView focusable="true" text="Logs" name="LogList" />
+        <ui:ScrollView name="LogList" style="margin-left: 20px;" />
     </ui:VisualElement>
 </ui:UXML>

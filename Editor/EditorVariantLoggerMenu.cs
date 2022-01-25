@@ -41,10 +41,17 @@ namespace UTJ.VariantLogger
         {
             var flag = UnityEditor.Menu.GetChecked(MenuName);
             flag = !flag;
+            SetEnable(flag);
+        }
+
+        internal static void SetEnable(bool flag)
+        {
             UnityEditor.Menu.SetChecked(MenuName, flag);
             EnableFlag = flag;
             SaveConfigData();
         }
+
+
         private static ConfigData ReadConfigData()
         {
             string str = File.ReadAllText(ConfigFile);

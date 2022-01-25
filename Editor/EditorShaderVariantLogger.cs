@@ -33,7 +33,7 @@ namespace UTJ.VariantLogger
             }
             if (!EditorSettings.asyncShaderCompilation)
             {
-                EditorUtility.DisplayDialog("Editor設定変更", "EditorSettingsのAsynchronous Shader Compilationを有効にします", "OK");
+                EditorUtility.DisplayDialog("Change EditorSettings", "[EditorSettings]Asynchronous Shader Compilation Disable->Enable", "OK");
                 EditorSettings.asyncShaderCompilation = true;
             }
             RemoveShaders();
