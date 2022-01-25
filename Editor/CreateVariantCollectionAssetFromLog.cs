@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 using UnityEngine.Rendering;
 
 namespace UTJ.VariantLogger
@@ -12,6 +13,13 @@ namespace UTJ.VariantLogger
     {
         private const string MenuName = "Tools/UTJ/ShaderVariantLogger/CreateAssetFromLog";
 
+        private ListView logListView;
+        private Toggle deleteFlagToggle;
+        private Toggle enagleLoggerToggle;
+        private ObjectField targetObjectField;
+        private Button addExecButton;
+        private Button openDirButton;
+
         [MenuItem(MenuName)]
         public static void Create()
         {
@@ -19,7 +27,17 @@ namespace UTJ.VariantLogger
         }
         private void OnEnable()
         {
-        }
+            var tree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.utj.shadervariantlogger/Editor/UXML/VariantCollectionCreateUI.uxml");
+
+            this.rootVisualElement.Add(tree.CloneTree());
+
+            this.logListView = this.rootVisualElement.Q<ListView>("LogList"); 
+            this.deleteFlagToggle = this.rootVisualElement.Q<Toggle>("DeleteFlag");
+            this.enagleLoggerToggle = this.rootVisualElement.Q<Toggle>("LoggerEnable");
+            this.targetObjectField = this.rootVisualElement.Q<ObjectField>("TargetAsset");
+            this.addExecButton = this.rootVisualElement.Q<Button>("AddExec");
+            this.openDirButton = this.rootVisualElement.Q<Button>("OpenDir");
+    }
 
         private List<string> GetFiles()
         {
@@ -55,9 +73,19 @@ namespace UTJ.VariantLogger
             variant = new ShaderVariantCollection.ShaderVariant();
 
             var datas = line.Split(',');
+            if(datas.Length < 7)
+            {
+                return false;
+            }
             var shaderName = datas[1];
             var pass = datas[4];
             var keyword = datas[6];
+
+            Shader shader = Shader.Find(shaderName);
+            if(shader == null) { return false; }
+
+            variant.shader = shader;
+
 
             return false;
         }
