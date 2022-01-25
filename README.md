@@ -1,31 +1,35 @@
 # UnityShaderVariantLoggerForEditor
-UnityEditor上で実行した時に、Shaderコンパイルをログに書き出してます。<br />
-そのログをもとにイイ感じにShaderVariantCollectionを作れるようにします。
+[日本語はコチラ](README.ja.md)<br />
 
-(今はWindowsOnly)
+Logging the ShaderCompile when running on Editor.
+And then generate the ShadervariantCollection from the "ShaderCompile log".
 
-# 利用方法
 
-メニューの 「Tools/UTJ/ShaderVariantLogger」で下記のWindowを開きます<br />
+(Currently WindowsOnly)
+
+# How to use
+
+Call "Tools/UTJ/ShaderVariantLogger" and open this window.<br />
 
 ![Screenshot](Document~/img/VariantLoggerWindow.png "Screenshot")<br />
 
 
-## 1.Shaderコンパイルのログ収集について
+## 1.logging "Shader Compile"
 
-画面の「1.Enabled」が有効な状態ででEditor上でプレイをしていると、Editor上でのShaderコンパイルログが「Library/com.utj.shadervariantlogger/logs」以下に蓄積されます<br />
-このログにアクセスしたいときは⑥のOpen Directoryを押すことでログが溜まっているディレクトリにアクセスすることができます。<br />
+If you enabled "1.Enabled", you play on the UnityEditor and then the "ShaderCompiling log" will be generated in "Library/com.utj.shadervariantlogger/logs"<br />
+If you want to access the log , press the "6.Open Directory".
 
-後にこのログをもとにShaderVariantCollectionアセットを作成することが可能です。<br />
+Also you can generate ShaderVariantCollection by using this log.<br />
 <br />
-※注意点：Editor上でプレイをするごとにShaderCacheを消します。
+※Warning:When you play on the Editor,ShaderCache will be deleted every time.
 
-## 2.ログからVariantCollectionを作成する
+## 2.Generate ShaderVariantCollection from log.
 
-「5.Add Variants from logs」を押すことで実行します。
+Press "5.Add Variants from logs".
 
-このとき、ログに溜まった内容をもとに「2.ShaderVariantCollection」で指定されたShaderVariantCollectionに対してVariant追加を試みます。<br />
-もし指定がないときには新規にファイルを作成します。
+You can select ShaderVariantCollection Asset that you want to add ShaderVariant by selecting "2.ShaderVariantCollection".
+If "2.ShaderVariant Collection" is none, new file will be generated.
 
-「3.Delete logs after adding」にチェックを入れると、処理完了後にもともとあったログファイルを削除します。
-「4.Shader Path Config Advanced」では、Variantに追加するShaderの条件を指定することが可能です。
+If you enabled "3.Delete logs after adding",the ShaderCompile logs will be deleted.
+Also you can configurate which Shader should be added by "4.Shader Path Config Advanced".
+
