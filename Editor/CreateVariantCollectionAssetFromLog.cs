@@ -24,8 +24,9 @@ namespace UTJ.VariantLogger
         private Toggle includePackagesToggle;
         private Toggle includeBuiltInToggle;
         private Toggle includeBuiltInExtraToggle;
+        private Toggle includeOthersToggle; 
 
-        [MenuItem(MenuName)]
+         [MenuItem(MenuName)]
         public static void Create()
         {
             EditorWindow.GetWindow<CreateVariantCollectionAssetFromLog>();
@@ -42,12 +43,27 @@ namespace UTJ.VariantLogger
             this.targetObjectField = this.rootVisualElement.Q<ObjectField>("TargetAsset");
             this.addExecButton = this.rootVisualElement.Q<Button>("AddExec");
             this.openDirButton = this.rootVisualElement.Q<Button>("OpenDir");
+
+            // Detail 
+            includeAssetsToggle = this.rootVisualElement.Q<Toggle>("IncludeAssets"); ;
+            includePackagesToggle = this.rootVisualElement.Q<Toggle>("IncludePackages"); ;
+            includeBuiltInToggle = this.rootVisualElement.Q<Toggle>("IncludeUnityBuiltIn"); ;
+            includeBuiltInExtraToggle = this.rootVisualElement.Q<Toggle>("IncludeUnityBuiltinExtra"); ;
+            includeOthersToggle = this.rootVisualElement.Q<Toggle>("IncludeOthers"); ;
+            
             // setup UI
             enagleLoggerToggle.value = EditorVariantLoggerMenu.EnableFlag;
             enagleLoggerToggle.RegisterValueChangedCallback(OnChangeEnableLogger);
             openDirButton.clicked += OnClickOpenDirectory;
             addExecButton.clicked += OnClickAddExecute;
             this.targetObjectField.objectType = typeof(ShaderVariantCollection);
+            // set DetailDefault
+            includeAssetsToggle.value = true;
+            includePackagesToggle.value = true;
+            includeBuiltInToggle.value = false;
+            includeBuiltInExtraToggle.value = false;
+            includeOthersToggle.value = false;
+
             SetupLogListView();
 
         }
@@ -174,17 +190,41 @@ namespace UTJ.VariantLogger
             Shader shader = Shader.Find(shaderName);
             if(shader == null) { return false; }
             string shaderPath = AssetDatabase.GetAssetPath(shader).ToLower();
-            if (!shaderPath.StartsWith("assets/") &&
-                !shaderPath.StartsWith("packages/"))
+            if (shaderPath.StartsWith("assets/") )
             {
-
-
-                //    return (lowerPath == "resources/unity_builtin_extra") || 
-                //        (lowerPath == "resources/unity_builtin");
-                
-
-                //Debug.Log("out of scope Shader " + shader.name + "::" + shaderPath);
-                return false;
+                if (!this.includeAssetsToggle.value)
+                {
+                    return false;
+                }
+            }
+            else if (shaderPath.StartsWith("packages/") )
+            {
+                if (!this.includePackagesToggle.value)
+                {
+                    return false;
+                }
+            }
+            else if (shaderPath == "resources/unity_builtin" )
+            {
+                if (!this.includeBuiltInToggle.value)
+                {
+                    return false;
+                }
+            }
+            else if (shaderPath == "resources/unity_builtin_extra")
+            {
+                if (!this.includeBuiltInExtraToggle.value)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                Debug.Log("other pass shader found " + shader.name + "::" + shaderPath);
+                if (!this.includeOthersToggle.value)
+                {
+                    return false;
+                }
             }
 
             variant.shader = shader;

@@ -7,11 +7,12 @@
         <ui:Label text="Create ShaderVariantCollection from logs" display-tooltip-when-elided="true" />
         <uie:ObjectField label="ShaderVariantCollection" name="TargetAsset" style="margin-left: 15px;" />
         <ui:Toggle label="Delete logs after adding" name="DeleteFlag" style="margin-left: 15px;" />
-        <ui:Foldout text="Target Detail Config" value="false" style="margin-left: 15px;">
+        <ui:Foldout text="Shader Path Config(Advanced)" value="false" style="margin-left: 15px;">
             <ui:Toggle label="Assets/**" name="IncludeAssets" />
             <ui:Toggle label="Packages/**" name="IncludePackages" />
             <ui:Toggle label="unity_builtin" name="IncludeUnityBuiltIn" />
             <ui:Toggle label="unity_builtin_extra" name="IncludeUnityBuiltinExtra" />
+            <ui:Toggle label="others..." name="IncludeOthers" />
         </ui:Foldout>
         <ui:Button text="Add Variants from logs" display-tooltip-when-elided="true" name="AddExec" style="margin-left: 15px; margin-right: 15px;" />
     </ui:VisualElement>
