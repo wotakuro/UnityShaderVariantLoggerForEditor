@@ -20,6 +20,11 @@ namespace UTJ.VariantLogger
         private Button addExecButton;
         private Button openDirButton;
 
+        private Toggle includeAssetsToggle;
+        private Toggle includePackagesToggle;
+        private Toggle includeBuiltInToggle;
+        private Toggle includeBuiltInExtraToggle;
+
         [MenuItem(MenuName)]
         public static void Create()
         {
@@ -44,6 +49,7 @@ namespace UTJ.VariantLogger
             addExecButton.clicked += OnClickAddExecute;
             this.targetObjectField.objectType = typeof(ShaderVariantCollection);
             SetupLogListView();
+
         }
 
         private void SetupLogListView()
@@ -167,10 +173,17 @@ namespace UTJ.VariantLogger
 
             Shader shader = Shader.Find(shaderName);
             if(shader == null) { return false; }
-            string shaderPath = AssetDatabase.GetAssetPath(shader);
-            if (!shaderPath.StartsWith("Assets/")||
-                !shaderPath.StartsWith("Packages/"))
+            string shaderPath = AssetDatabase.GetAssetPath(shader).ToLower();
+            if (!shaderPath.StartsWith("assets/") &&
+                !shaderPath.StartsWith("packages/"))
             {
+
+
+                //    return (lowerPath == "resources/unity_builtin_extra") || 
+                //        (lowerPath == "resources/unity_builtin");
+                
+
+                //Debug.Log("out of scope Shader " + shader.name + "::" + shaderPath);
                 return false;
             }
 
@@ -178,7 +191,7 @@ namespace UTJ.VariantLogger
             variant.keywords = GetKeywordArray(keywords);
             variant.passType = GetPassType(pass);
 
-            return false;
+            return true;
         }
 
         private string[] GetKeywordArray(string keywords)
