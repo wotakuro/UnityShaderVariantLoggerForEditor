@@ -27,7 +27,7 @@ namespace UTJ.VariantLogger
 
         public static void Execute()
         {
-            if (!EditorVariantLoggerMenu.EnableFlag) {
+            if (!EditorVariantLoggerConfig.EnableFlag) {
                 ShaderVariantLoggerInterface.SetEnable(false);
                 return;
             }

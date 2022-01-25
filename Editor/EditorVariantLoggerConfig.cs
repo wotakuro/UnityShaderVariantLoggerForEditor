@@ -5,10 +5,9 @@ using UnityEditor;
 
 namespace UTJ.VariantLogger
 {
-    internal class EditorVariantLoggerMenu
+    internal class EditorVariantLoggerConfig
     {
-        #region EditorMenu
-        private const string MenuName = "Tools/UTJ/ShaderVariantLogger/Enable";
+
         private const string ConfigFile = "Library/com.utj.shadervariantlogger/config.txt";
         internal static bool EnableFlag { get; set; } = false;
 
@@ -24,29 +23,15 @@ namespace UTJ.VariantLogger
             if (!File.Exists(ConfigFile))
             {
                 EnableFlag = false;
-                Menu.SetChecked(MenuName, EnableFlag);
                 return;
             }
             var config = ReadConfigData();
             EnableFlag = config.flag;
-            EditorApplication.delayCall += () =>
-            {
-                Menu.SetChecked(MenuName, EnableFlag);
-            };
         }
 
-
-        [MenuItem(MenuName, priority = 1)]
-        public static void ChangeMode()
-        {
-            var flag = UnityEditor.Menu.GetChecked(MenuName);
-            flag = !flag;
-            SetEnable(flag);
-        }
 
         internal static void SetEnable(bool flag)
         {
-            UnityEditor.Menu.SetChecked(MenuName, flag);
             EnableFlag = flag;
             SaveConfigData();
         }
@@ -70,7 +55,6 @@ namespace UTJ.VariantLogger
             }
             File.WriteAllText(ConfigFile, str);
         }
-        #endregion EditorMenu
     }
 
 }

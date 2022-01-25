@@ -11,7 +11,7 @@ namespace UTJ.VariantLogger
 {
     internal class CreateVariantCollectionAssetFromLog : EditorWindow
     {
-        private const string MenuName = "Tools/UTJ/ShaderVariantLogger/CreateAssetFromLog";
+        private const string MenuName = "Tools/UTJ/ShaderVariantLogger";
 
         private ScrollView logListView;
         private Toggle deleteFlagToggle;
@@ -33,6 +33,7 @@ namespace UTJ.VariantLogger
         }
         private void OnEnable()
         {
+            this.titleContent = new GUIContent("ShaderVariantLogger");
             var tree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.utj.shadervariantlogger/Editor/UXML/VariantCollectionCreateUI.uxml");
 
             this.rootVisualElement.Add(tree.CloneTree());
@@ -52,7 +53,7 @@ namespace UTJ.VariantLogger
             includeOthersToggle = this.rootVisualElement.Q<Toggle>("IncludeOthers"); ;
             
             // setup UI
-            enagleLoggerToggle.value = EditorVariantLoggerMenu.EnableFlag;
+            enagleLoggerToggle.value = EditorVariantLoggerConfig.EnableFlag;
             enagleLoggerToggle.RegisterValueChangedCallback(OnChangeEnableLogger);
             openDirButton.clicked += OnClickOpenDirectory;
             addExecButton.clicked += OnClickAddExecute;
@@ -141,7 +142,7 @@ namespace UTJ.VariantLogger
 
         private void OnChangeEnableLogger(ChangeEvent<bool> val)
         {
-            EditorVariantLoggerMenu.SetEnable(val.newValue);
+            EditorVariantLoggerConfig.SetEnable(val.newValue);
         }
 
         private List<string> GetFiles()
