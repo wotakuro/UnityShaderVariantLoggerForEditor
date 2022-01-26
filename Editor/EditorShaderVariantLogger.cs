@@ -36,10 +36,7 @@ namespace UTJ.VariantLogger
                 EditorUtility.DisplayDialog("Change EditorSettings", "[EditorSettings]Asynchronous Shader Compilation Disable->Enable", "OK");
                 EditorSettings.asyncShaderCompilation = true;
             }
-            if (EditorVariantLoggerConfig.ClearShaderCache)
-            {
-                RemoveShaders();
-            }
+            ReloadShaders();
             SetupLogger();
         }
 
@@ -58,10 +55,13 @@ namespace UTJ.VariantLogger
             ShaderVariantLoggerInterface.SetupFile( SaveDir + "/" +currentTime.ToString("yyyyMMdd_HHmmss") + ".log");
         }
 
-        public static void RemoveShaders() {
+        public static void ReloadShaders() {
             var backupCompilation = ShaderUtil.allowAsyncCompilation;
             ShaderUtil.allowAsyncCompilation = true;
-            System.IO.Directory.Delete("Library/ShaderCache", true);
+            if (EditorVariantLoggerConfig.ClearShaderCache)
+            {
+                System.IO.Directory.Delete("Library/ShaderCache", true);
+            }
 
             var method = typeof(ShaderUtil).GetMethod("ReloadAllShaders", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Static);
             method.Invoke(null,null);
