@@ -22,6 +22,9 @@ namespace UTJ.VariantLogger
         [DllImport(DllName)]
         private extern static bool _ShaderCompileWatcherForEditorGetEnable();
 
+        [DllImport(DllName)]
+        private extern static System.IntPtr _ShaderCompileWatcherForEditorGetCurrentFile();
+
         public static void SetupFile(string file)
         {
             _ShaderCompileWatcherForEditorSetupFile(file);
@@ -38,6 +41,12 @@ namespace UTJ.VariantLogger
         public static bool GetEnable()
         {
             return _ShaderCompileWatcherForEditorGetEnable();
+        }
+
+        public static string GetCurrentFile()
+        {
+            var ptr = _ShaderCompileWatcherForEditorGetCurrentFile();
+            return Marshal.PtrToStringAnsi(ptr);
         }
     }
 }

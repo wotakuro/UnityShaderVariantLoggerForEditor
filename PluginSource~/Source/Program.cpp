@@ -119,6 +119,12 @@ extern "C" void UNITY_INTERFACE_EXPORT  _ShaderCompileWatcherForEditorSetupFile(
     file_out <<"frameIdx,Shader,exec(ms),isWarmupCall,pass,stage,keyword,"<<std::endl ;
     file_out.close();
 }
+
+extern "C" UNITY_INTERFACE_EXPORT  const char* _ShaderCompileWatcherForEditorGetCurrentFile()
+{
+    return s_filename.c_str();
+}
+
 extern "C" void UNITY_INTERFACE_EXPORT _ShaderCompileWatcherForEditorSetFrame(int idx)
 {
     s_frameIndex = idx;
