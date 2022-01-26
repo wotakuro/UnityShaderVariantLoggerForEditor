@@ -5,11 +5,13 @@ using UnityEditor;
 
 namespace UTJ.VariantLogger
 {
-    internal class EditorVariantLoggerConfig
+    public class EditorVariantLoggerConfig
     {
+        private const string WorkingDir =  "Library/com.utj.shadervariantlogger";
+        private const string ConfigFile = WorkingDir + "/config.txt";
+        internal static readonly string SaveDir = WorkingDir + "/logs";
 
-        private const string ConfigFile = "Library/com.utj.shadervariantlogger/config.txt";
-        internal static bool EnableFlag { get; private set; } = false;
+        public static bool EnableFlag { get; private set; } = false;
         internal static bool ClearShaderCache { get; private set; } = false;
 
         [System.Serializable]
@@ -20,7 +22,7 @@ namespace UTJ.VariantLogger
         }
 
         [InitializeOnLoadMethod]
-        public static void Init()
+        internal static void Init()
         {
             if (!File.Exists(ConfigFile))
             {

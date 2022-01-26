@@ -144,7 +144,7 @@ namespace UTJ.VariantLogger
 
         private void OnClickOpenDirectory()
         {
-            EditorUtility.RevealInFinder(EditorShaderVariantLogger.SaveDir);
+            EditorUtility.RevealInFinder(EditorVariantLoggerConfig.SaveDir);
         }
 
         private void OnChangeEnableLogger(ChangeEvent<bool> val)
@@ -159,7 +159,11 @@ namespace UTJ.VariantLogger
 
         private List<string> GetFiles()
         {
-            var files = Directory.GetFiles(EditorShaderVariantLogger.SaveDir);
+            if (!Directory.Exists(EditorVariantLoggerConfig.SaveDir))
+            {
+                return new List<string>();
+            }
+            var files = Directory.GetFiles(EditorVariantLoggerConfig.SaveDir);
             var list = new List<string>(files.Length);
             foreach (var file in files)
             {

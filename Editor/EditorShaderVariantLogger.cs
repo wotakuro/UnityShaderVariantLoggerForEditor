@@ -9,7 +9,6 @@ namespace UTJ.VariantLogger
 
     internal class EditorShaderVariantLogger
     {
-        internal static readonly string SaveDir = "Library/com.utj.shadervariantlogger/logs";
 
         [InitializeOnLoadMethod]
         public static void Init()
@@ -47,12 +46,12 @@ namespace UTJ.VariantLogger
             ShaderVariantLoggerInterface.SetFrame(0);
             
 
-            if (!Directory.Exists(SaveDir))
+            if (!Directory.Exists(EditorVariantLoggerConfig.SaveDir))
             {
-                Directory.CreateDirectory(SaveDir);
+                Directory.CreateDirectory(EditorVariantLoggerConfig.SaveDir);
             }
             var currentTime = System.DateTime.Now;
-            ShaderVariantLoggerInterface.SetupFile( SaveDir + "/" +currentTime.ToString("yyyyMMdd_HHmmss") + ".log");
+            ShaderVariantLoggerInterface.SetupFile(EditorVariantLoggerConfig.SaveDir + "/" +currentTime.ToString("yyyyMMdd_HHmmss") + ".log");
         }
 
         public static void ReloadShaders() {
