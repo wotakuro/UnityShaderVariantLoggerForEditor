@@ -2,6 +2,7 @@
     <ui:VisualElement name="GeneralConfig" style="flex-shrink: 0;">
         <ui:Label text="Shader Compile Log at Editor" display-tooltip-when-elided="true" />
         <ui:Toggle label="Enabled" name="LoggerEnable" style="margin-left: 15px;" />
+        <ui:Toggle label="Clear ShaderCache" name="ClearShaderCache" style="margin-left: 15px;" />
     </ui:VisualElement>
     <ui:VisualElement name="CreateAsset" style="flex-shrink: 0;">
         <ui:Label text="Create ShaderVariantCollection from logs" display-tooltip-when-elided="true" />

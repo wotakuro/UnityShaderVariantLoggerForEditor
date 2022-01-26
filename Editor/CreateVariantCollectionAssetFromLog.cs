@@ -16,6 +16,8 @@ namespace UTJ.VariantLogger
         private ScrollView logListView;
         private Toggle deleteFlagToggle;
         private Toggle enagleLoggerToggle;
+        private Toggle clearShaderCacheToggle;
+
         private ObjectField targetObjectField;
         private Button addExecButton;
         private Button openDirButton;
@@ -41,6 +43,9 @@ namespace UTJ.VariantLogger
             this.logListView = this.rootVisualElement.Q<ScrollView>("LogList"); 
             this.deleteFlagToggle = this.rootVisualElement.Q<Toggle>("DeleteFlag");
             this.enagleLoggerToggle = this.rootVisualElement.Q<Toggle>("LoggerEnable");
+            this.clearShaderCacheToggle = this.rootVisualElement.Q<Toggle>("ClearShaderCache");
+
+            
             this.targetObjectField = this.rootVisualElement.Q<ObjectField>("TargetAsset");
             this.addExecButton = this.rootVisualElement.Q<Button>("AddExec");
             this.openDirButton = this.rootVisualElement.Q<Button>("OpenDir");
@@ -51,10 +56,12 @@ namespace UTJ.VariantLogger
             includeBuiltInToggle = this.rootVisualElement.Q<Toggle>("IncludeUnityBuiltIn"); ;
             includeBuiltInExtraToggle = this.rootVisualElement.Q<Toggle>("IncludeUnityBuiltinExtra"); ;
             includeOthersToggle = this.rootVisualElement.Q<Toggle>("IncludeOthers"); ;
-            
+
             // setup UI
             enagleLoggerToggle.value = EditorVariantLoggerConfig.EnableFlag;
+            clearShaderCacheToggle.value = EditorVariantLoggerConfig.ClearShaderCache;
             enagleLoggerToggle.RegisterValueChangedCallback(OnChangeEnableLogger);
+            clearShaderCacheToggle.RegisterValueChangedCallback(OnChangeClearShaderCache);
             openDirButton.clicked += OnClickOpenDirectory;
             addExecButton.clicked += OnClickAddExecute;
             this.targetObjectField.objectType = typeof(ShaderVariantCollection);
@@ -143,6 +150,11 @@ namespace UTJ.VariantLogger
         private void OnChangeEnableLogger(ChangeEvent<bool> val)
         {
             EditorVariantLoggerConfig.SetEnable(val.newValue);
+        }
+
+        private void OnChangeClearShaderCache(ChangeEvent<bool> val)
+        {
+            EditorVariantLoggerConfig.SetClearShaderCache(val.newValue);
         }
 
         private List<string> GetFiles()

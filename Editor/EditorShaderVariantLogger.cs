@@ -36,7 +36,10 @@ namespace UTJ.VariantLogger
                 EditorUtility.DisplayDialog("Change EditorSettings", "[EditorSettings]Asynchronous Shader Compilation Disable->Enable", "OK");
                 EditorSettings.asyncShaderCompilation = true;
             }
-            RemoveShaders();
+            if (EditorVariantLoggerConfig.ClearShaderCache)
+            {
+                RemoveShaders();
+            }
             SetupLogger();
         }
 

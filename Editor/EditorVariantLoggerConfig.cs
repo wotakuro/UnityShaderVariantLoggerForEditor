@@ -9,12 +9,14 @@ namespace UTJ.VariantLogger
     {
 
         private const string ConfigFile = "Library/com.utj.shadervariantlogger/config.txt";
-        internal static bool EnableFlag { get; set; } = false;
+        internal static bool EnableFlag { get; private set; } = false;
+        internal static bool ClearShaderCache { get; private set; } = false;
 
         [System.Serializable]
         struct ConfigData
         {
             public bool flag;
+            public bool clearShaderCache;
         }
 
         [InitializeOnLoadMethod]
@@ -23,10 +25,12 @@ namespace UTJ.VariantLogger
             if (!File.Exists(ConfigFile))
             {
                 EnableFlag = false;
+                ClearShaderCache = true;
                 return;
             }
             var config = ReadConfigData();
             EnableFlag = config.flag;
+            ClearShaderCache = config.clearShaderCache;
         }
 
 
@@ -35,6 +39,12 @@ namespace UTJ.VariantLogger
             EnableFlag = flag;
             SaveConfigData();
         }
+        internal static void SetClearShaderCache(bool flag)
+        {
+            ClearShaderCache = flag;
+            SaveConfigData();
+        }
+
 
 
         private static ConfigData ReadConfigData()
@@ -46,7 +56,10 @@ namespace UTJ.VariantLogger
 
         private static void SaveConfigData()
         {
-            ConfigData data = new ConfigData() { flag = EnableFlag };
+            ConfigData data = new ConfigData() { 
+                flag = EnableFlag,
+                clearShaderCache = ClearShaderCache 
+            };
             var str = JsonUtility.ToJson(data);
             string dir = Path.GetDirectoryName(ConfigFile);
             if (!Directory.Exists(dir))
