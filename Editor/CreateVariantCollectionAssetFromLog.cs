@@ -184,9 +184,17 @@ namespace UTJ.VariantLogger
             {
                 return false;
             }
+            var stage = datas[5];
             var shaderName = datas[1];
             var pass = datas[4];
             var keywords = datas[6];
+
+            // The keywords of "Shader.CompileGPUProgram" is different from "Shader.CreateGPUProgram"
+            // have to something todo.....
+            if(stage == "EditorCompile")
+            {
+                return false;
+            }
 
             Shader shader = Shader.Find(shaderName);
             if(shader == null) { return false; }
