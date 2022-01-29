@@ -9,6 +9,7 @@ using UnityEngine.Rendering;
 
 namespace UTJ.VariantLogger
 {
+
     internal class CreateVariantCollectionAssetFromLog : EditorWindow
     {
         private const string MenuName = "Tools/UTJ/ShaderVariantLogger";

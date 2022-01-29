@@ -2,7 +2,8 @@
     "name": "Editor.SceneCoverage.UnityShaderVariantLogerForEditor",
     "rootNamespace": "",
     "references": [
-        "GUID:2f711816e3053da42b1e0cdc220d5b59"
+        "GUID:2f711816e3053da42b1e0cdc220d5b59",
+        "GUID:4c278788055e44446b7c7434e5f66747"
     ],
     "includePlatforms": [
         "Editor"
