@@ -92,6 +92,11 @@ namespace UTJ.VariantLogger
                     menu.OnEnable();
                 }
             }
+            uiMenuItems.Sort((a, b) =>
+            {
+                return a.order - b.order;
+            });
+
             var toolBar = new Toolbar();
             this.rootVisualElement.Add(toolBar);
 
