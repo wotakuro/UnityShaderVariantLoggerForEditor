@@ -1,9 +1,9 @@
 {
     "name": "Editor.SceneCoverage.UnityShaderVariantLogerForEditor",
-    "rootNamespace": "",
     "references": [
         "GUID:2f711816e3053da42b1e0cdc220d5b59",
-        "GUID:4c278788055e44446b7c7434e5f66747"
+        "GUID:4c278788055e44446b7c7434e5f66747",
+        "GUID:69448af7b92c7f342b298e06a37122aa"
     ],
     "includePlatforms": [
         "Editor"
@@ -14,6 +14,12 @@
     "precompiledReferences": [],
     "autoReferenced": false,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.addressables",
+            "expression": "",
+            "define": "VARIANT_LOGGER_COVERAGE_ADDRESSABLE"
+        }
+    ],
     "noEngineReferences": false
 }

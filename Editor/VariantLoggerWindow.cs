@@ -16,12 +16,22 @@ namespace UTJ.VariantLogger
         {
             public abstract string toolbar { get; }
             public abstract int order { get; }
-            VisualElement _rootVisualElement = new VisualElement();
+
+            public virtual bool enabled { get { return true; } }
+
+            VisualElement _rootVisualElement;
             public VisualElement rootVisualElement {
                 get {
+                    if(_rootVisualElement == null)
+                    {
+                        _rootVisualElement = new VisualElement();
+//                        _rootVisualElement.
+                    }
                     return _rootVisualElement;
                 }
             }
+
+            public VariantLoggerWindow parent { get; set; }
             public abstract void OnEnable();
 
             public override int GetHashCode()
@@ -75,9 +85,12 @@ namespace UTJ.VariantLogger
             foreach ( var menuType in menuItemTypes)
             {
                 var menu = System.Activator.CreateInstance(menuType) as UIMenuItem;
-                uiMenuItems.Add(menu);
-
-                menu.OnEnable();
+                if (menu.enabled)
+                {
+                    uiMenuItems.Add(menu);
+                    menu.parent = this;
+                    menu.OnEnable();
+                }
             }
             var toolBar = new Toolbar();
             this.rootVisualElement.Add(toolBar);
@@ -96,7 +109,15 @@ namespace UTJ.VariantLogger
                 uiToolbarToggles.Add(toggle);
                 toggle.SetValueWithoutNotify(idx == 0);
 
-                menu.rootVisualElement.SetEnabled(idx == 0);
+                menu.rootVisualElement.visible = (idx == 0);
+                if (idx == 0)
+                {
+                    menu.rootVisualElement.style.display = DisplayStyle.Flex;
+                }
+                else
+                {
+                    menu.rootVisualElement.style.display = DisplayStyle.None;
+                }
                 this.rootVisualElement.Add(menu.rootVisualElement);
                 uiItemBody.Add(toggle, menu.rootVisualElement);
 
@@ -117,9 +138,18 @@ namespace UTJ.VariantLogger
                 if(target == toolbar) { continue; }
                 toolbar.SetValueWithoutNotify(false);
                 var body = uiItemBody[toolbar];
-                if (body != null) { body.visible = false; }
+                if (body != null) {
+                    body.visible = false;
+
+                    body.style.display = DisplayStyle.None;
+                }
             }
-            uiItemBody[target].visible = true;
+            var targetBody = uiItemBody[target];
+            if (targetBody != null)
+            {
+                targetBody.visible = true;
+                targetBody.style.display = DisplayStyle.Flex;
+            }
 
 
         }
