@@ -22,8 +22,8 @@ If you want to access the log , press the "Open Directory".
 Also you can generate ShaderVariantCollection by using this log.<br />
 <br />
 When you play on the Editor,ShaderCache will be deleted every time.<br />
-If you want to stop clear the Shader cachefolder,enable "Clear ShaderCache".
-* However some shader compile could be missed when enabling "Clear ShaderCache".
+If you want to stop clear the Shader cachefolder, disable the flag "Clear ShaderCache".
+* However some shader compile could be missed when disabling "Clear ShaderCache".
 
 ## 2.Generate ShaderVariantCollection from log.
 
