@@ -25,7 +25,6 @@ namespace UTJ.VariantLogger
                     if(_rootVisualElement == null)
                     {
                         _rootVisualElement = new VisualElement();
-//                        _rootVisualElement.
                     }
                     return _rootVisualElement;
                 }

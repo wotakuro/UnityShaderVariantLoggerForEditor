@@ -12,6 +12,7 @@ namespace UTJ.VariantLogger
 {
     public class SceneCorvarageEditorUI : VariantLoggerWindow.UIMenuItem
     {
+
         public override string toolbar => "Scenes";
 
         public override int order => 1;
@@ -21,6 +22,13 @@ namespace UTJ.VariantLogger
 
         public override void OnEnable()
         {
+            var treePath = "Packages/com.utj.shadervariantlogger/Extentions/SceneCoverage/Editor/UXML/SceneLogAnalyze.uxml";
+            var tree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(treePath);
+            this.rootVisualElement.Add(tree.CloneTree());
+
+            var resultView = this.rootVisualElement.Q<VisualElement>("ResultView");
+            resultView.visible = false;
+
             currentSceneAsset = new List<SceneAsset>();
             AddBuildScene(currentSceneAsset);
 

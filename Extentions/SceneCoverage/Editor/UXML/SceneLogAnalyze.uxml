@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Button text="Analyze" name="AnalyzeBtn" />
+    <ui:VisualElement name="ResultView" style="margin-left: 0; overflow: hidden; visibility: visible;">
+        <ui:Toggle label="Show no active only" />
+        <ui:Toggle label="Show no load only" />
+        <ui:VisualElement style="margin-left: 20px;">
+            <ui:VisualElement style="overflow: visible; visibility: visible; flex-direction: row; flex-shrink: 0; justify-content: space-between; align-items: auto;">
+                <ui:Label text="Sceen" />
+                <ui:Label text="ActiveFrame" style="flex-direction: column; flex-wrap: nowrap; white-space: nowrap;" />
+                <ui:Label text="LoadFrame" />
+            </ui:VisualElement>
+            <ui:ScrollView name="ResultArea" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

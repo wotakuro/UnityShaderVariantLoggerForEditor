@@ -43,8 +43,9 @@ namespace UTJ.VariantLogger
             for (int i = 0; i < SceneManager.sceneCount; ++i)
             {
                 stringBuilder.Append(SceneManager.GetSceneAt(i).path);
+                stringBuilder.Append(",");
             }
-            stringBuilder.Append(",");
+            stringBuilder.Append("\n");
             stringBuilder.Append(Time.frameCount).Append(",active,").Append(SceneManager.GetActiveScene().path).Append("\n");
             File.WriteAllText(logFile, stringBuilder.ToString());
 
