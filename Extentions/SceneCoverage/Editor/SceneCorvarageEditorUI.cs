@@ -20,6 +20,9 @@ namespace UTJ.VariantLogger
         private SceneCoverageAnalyzer analyzer;
         private BuildTargetSceneCollector targetSceneCollector;
 
+        private ScrollView resultArea;
+        private Toggle showNoActiveOnlyToggle;
+        private Toggle showNoLoadOnlyToggle;
 
 
         public override void OnEnable()
@@ -28,11 +31,21 @@ namespace UTJ.VariantLogger
             var tree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(treePath);
             this.rootVisualElement.Add(tree.CloneTree());
 
-            var resultView = this.rootVisualElement.Q<VisualElement>("ResultView");
-            resultView.visible = false;
 
             var analyzeButton = this.rootVisualElement.Q<Button>("AnalyzeBtn");
             analyzeButton.clicked += OnClickAnalyze;
+
+
+            this.resultArea = this.rootVisualElement.Q<ScrollView>();
+            this.showNoActiveOnlyToggle = this.rootVisualElement.Q<Toggle>("ShowNoActiveOnly");
+            this.showNoLoadOnlyToggle = this.rootVisualElement.Q<Toggle>("ShowNoLoadOnly");
+
+            this.showNoActiveOnlyToggle.RegisterValueChangedCallback((val) => { SetResult(); });
+            this.showNoLoadOnlyToggle.RegisterValueChangedCallback((val) => { SetResult(); });
+
+            // todo wip
+            var resultView = this.rootVisualElement.Q<VisualElement>("ResultView");
+            resultView.visible = false;
         }
 
         private void OnClickAnalyze()
@@ -46,16 +59,23 @@ namespace UTJ.VariantLogger
             anlyzeBtn.visible = false;
 
             this.targetSceneCollector = new BuildTargetSceneCollector();
-            var res = analyzer.Result;
+            this.SetResult();
+        }
 
-            var resultArea = this.rootVisualElement.Q<ScrollView>();
 
-            foreach(var scene in targetSceneCollector.Result)
+        private void SetResult() {
+            bool isNoActiveOnly = showNoActiveOnlyToggle.value;
+            bool isNoLoadOnly = showNoLoadOnlyToggle.value;
+
+            this.resultArea.Clear();
+            foreach (var scene in targetSceneCollector.Result)
             {
+                if (isNoLoadOnly && analyzer.GetLoadFrame(scene.path) > 0) { continue; }
+                if (isNoActiveOnly && analyzer.GetActiveFrame(scene.path) > 0) { continue; }
+
                 VisualElement row = new VisualElement();
                 var objField = new ObjectField();
                 objField.value = scene.sceneAsset;
-                objField.SetEnabled(false);
                 row.Add(objField);
 
                 Label activeLabel = new Label(analyzer.GetActiveFrame(scene.path).ToString());
@@ -67,12 +87,7 @@ namespace UTJ.VariantLogger
                 row.style.justifyContent = Justify.SpaceBetween;
                 resultArea.Add(row);
             }
-
-
-            foreach ( var val in res)
-            {
-                Debug.Log(val.Value.scenePath + ":" + val.Value.loadFrame + ":" + val.Value.activeFrame );
-            }
+            
 
         }
 

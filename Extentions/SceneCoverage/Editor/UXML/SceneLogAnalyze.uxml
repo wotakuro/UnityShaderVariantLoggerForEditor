@@ -1,8 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <ui:Button text="Analyze" name="AnalyzeBtn" />
-    <ui:VisualElement name="ResultView" style="margin-left: 0; overflow: hidden; visibility: visible;">
-        <ui:Toggle label="Show no active only" />
-        <ui:Toggle label="Show no load only" />
+    <ui:VisualElement name="ResultView" style="margin-left: 0; visibility: visible;">
+        <ui:Toggle label="Show no active only" name="ShowNoActiveOnly" />
+        <ui:Toggle label="Show no load only" name="ShowNoLoadOnly" />
         <ui:VisualElement style="margin-left: 20px;">
             <ui:VisualElement style="overflow: visible; visibility: visible; flex-direction: row; flex-shrink: 0; justify-content: space-between; align-items: auto;">
                 <ui:Label text="Sceen" />
