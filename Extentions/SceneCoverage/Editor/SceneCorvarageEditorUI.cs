@@ -17,8 +17,9 @@ namespace UTJ.VariantLogger
 
         public override int order => 1;
 
+        private SceneCoverageAnalyzer analyzer;
 
-        private List<SceneAsset> currentSceneAsset;
+
 
         public override void OnEnable()
         {
@@ -29,85 +30,30 @@ namespace UTJ.VariantLogger
             var resultView = this.rootVisualElement.Q<VisualElement>("ResultView");
             resultView.visible = false;
 
-            currentSceneAsset = new List<SceneAsset>();
-            AddBuildScene(currentSceneAsset);
+            var analyzeButton = this.rootVisualElement.Q<Button>("AnalyzeBtn");
+            analyzeButton.clicked += OnClickAnalyze;
+        }
 
-            var allPath = this.GetAllScenePath();
-            this.AddAssetBundleLabelScene(currentSceneAsset, allPath);
-            this.AddAddressableLabelScenes(currentSceneAsset, allPath);
+        private void OnClickAnalyze()
+        {
+            var resultView = this.rootVisualElement.Q<VisualElement>("ResultView");
+            resultView.visible = true;
 
-            foreach (var scene in currentSceneAsset)
+            var anlyzeBtn = this.rootVisualElement.Q<Button>("AnalyzeBtn");
+            analyzer = new SceneCoverageAnalyzer();
+            analyzer.Execute();
+            anlyzeBtn.visible = false;
+
+            var res = analyzer.Result;
+            foreach( var val in res)
             {
-                var field = new ObjectField();
-                field.SetValueWithoutNotify(scene);
-                field.SetEnabled(false);
-                this.rootVisualElement.Add(field);
+                Debug.Log(val.Value.scenePath + ":" + val.Value.loadFrame + ":" + val.Value.activeFrame );
             }
+
         }
 
         public override bool enabled => true;
 
 
-        private List<string> GetAllScenePath()
-        {
-            List<string> paths = new List<string>();
-            var guids = AssetDatabase.FindAssets("t:scene");
-            foreach (var guid in guids)
-            {
-                var path = AssetDatabase.GUIDToAssetPath(guid);
-                paths.Add(path);
-            }
-            return paths;
-        }
-
-        private void AddBuildScene(List<SceneAsset> scenes)
-        {
-            var buildScenes = EditorBuildSettings.scenes;
-            foreach (var buildScene in buildScenes)
-            {
-                if (!buildScene.enabled) { continue; }
-                scenes.Add(AssetDatabase.LoadAssetAtPath<SceneAsset>(buildScene.path));
-            }
-        }
-
-        private void AddAssetBundleLabelScene(List<SceneAsset> scenes, List<string> scenePath)
-        {
-            foreach (var path in scenePath)
-            {
-                var importer = AssetImporter.GetAtPath(path);
-                if (importer == null || string.IsNullOrEmpty(importer.assetBundleName))
-                {
-                    continue;
-                }
-                var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(path);
-                if (!scenes.Contains(sceneAsset))
-                {
-                    scenes.Add(sceneAsset);
-                }
-
-            }
-        }
-
-        private void AddAddressableLabelScenes(List<SceneAsset> scenes, List<string> scenePath)
-        {
-#if VARIANT_LOGGER_COVERAGE_ADDRESSABLE
-            var settings = AddressableAssetSettingsDefaultObject.Settings;
-            foreach (var path in scenePath)
-            {
-                var importer = AssetImporter.GetAtPath(path);
-                if (importer == null)
-                {
-                    continue;
-                }
-                var entry = settings.FindAssetEntry(AssetDatabase.AssetPathToGUID(path));
-                if(entry == null) { continue; }
-                var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(path);
-                if (!scenes.Contains(sceneAsset))
-                {
-                    scenes.Add(sceneAsset);
-                }
-            }
-#endif
-        }
     }
 }

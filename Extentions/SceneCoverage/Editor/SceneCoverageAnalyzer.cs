@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UTJ.VariantLogger
 {
-    internal class SceneCoverageAnalyzer : MonoBehaviour
+    internal class SceneCoverageAnalyzer
     {
 
 
@@ -132,21 +132,23 @@ namespace UTJ.VariantLogger
         private void ExecChangeActiveLine(string[] columns, int frame)
         {
             // CurrentScene
-            SceneState currentState;
-            string currentPath = columns[2];
-            if (!string.IsNullOrEmpty(currentPath) &&
-                this.currentState.TryGetValue(currentPath, out currentState))
+            SceneState state;
+            string path = columns[2];
+            if (!string.IsNullOrEmpty(path) &&
+                this.currentState.TryGetValue(path, out state))
             {
-                if (currentState.isActive && currentState.lastActiveFrame >=0)
+                if (state.isActive && state.lastActiveFrame >=0)
                 {
-                    this.AppendLoggedSceneInfo(currentPath, 0, currentState.lastActiveFrame - frame);
+                    this.AppendLoggedSceneInfo(path, 0, state.lastActiveFrame - frame);
                 }
-                currentState.isActive = false;
-                currentState.lastActiveFrame = -1;
+                state.isActive = false;
+                state.lastActiveFrame = -1;
+                this.currentState[path] = state;
             }
-            // CurrentScene
+
+            // nextScene
             SceneState nextState;
-            string nextPath = columns[2];
+            string nextPath = columns[3];
             if (!string.IsNullOrEmpty(nextPath))
             {
                 if(!this.currentState.TryGetValue(nextPath, out nextState))
@@ -155,6 +157,7 @@ namespace UTJ.VariantLogger
                 }
                 nextState.isActive = true;
                 nextState.lastActiveFrame = frame;
+                this.currentState[nextPath] = nextState;
             }
 
         }
@@ -196,23 +199,35 @@ namespace UTJ.VariantLogger
 
             SceneState state;
             string path = columns[2];
-            if (!this.currentState.TryGetValue(path, out state))
+            if (this.currentState.TryGetValue(path, out state))
             {
-                state = new SceneState(path, false, -1);
+                int loadFrame = 0;
+                int activeFrame = 0;
+                if(state.lastLoadFrame >= 0)
+                {
+                    loadFrame = frame - state.lastLoadFrame;
+                }
+                if (state.lastActiveFrame >= 0)
+                {
+                    activeFrame = frame - state.lastActiveFrame;
+                }
+                AppendLoggedSceneInfo(path, loadFrame, activeFrame);
+
+                state.isLoad = false;
+                state.lastLoadFrame = -1;
+                state.isActive = false;
+                state.lastActiveFrame = -1;
             }
             else
             {
-                if(state.lastLoadFrame >= 0)
-                {
-                    AppendLoggedSceneInfo(path, frame - state.lastLoadFrame, 0);
-                }
-                state.isLoad = false;
-                state.lastLoadFrame = -1;
+                state = new SceneState(path, false, -1);
+
             }
+            this.currentState[path] = state;
         }
         private void ExecEndLine(string[] columns, int frame)
         {
-            var keys = this.currentState.Keys;
+            var keys = new List<string>(this.currentState.Keys);
             foreach( var key in keys)
             {
                 var state = this.currentState[key];
@@ -233,17 +248,18 @@ namespace UTJ.VariantLogger
 
         private void AppendLoggedSceneInfo(string path,int loaded,int active)
         {
+            if (string.IsNullOrEmpty(path)) { return; }
             LoggedSceneInfo info;
             if( loggerInfo.TryGetValue(path,out info) ){
                 info.loadFrame += loaded;
-                info.activeFrame = active;
+                info.activeFrame += active;
             }
             else
             {
                 info = new LoggedSceneInfo();
                 info.scenePath = path;
                 info.loadFrame = loaded;
-                info.loadFrame = active;
+                info.activeFrame = active;
             }
             loggerInfo[path] = info;
         }
