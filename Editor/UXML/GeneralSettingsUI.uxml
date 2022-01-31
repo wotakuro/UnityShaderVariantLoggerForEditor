@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="GeneralConfig" style="flex-shrink: 0;">
+        <ui:Label text="Shader Compile Log at Editor" display-tooltip-when-elided="true" />
+        <ui:Toggle label="Enabled" name="LoggerEnable" style="margin-left: 15px;" />
+        <ui:Foldout text="Advanced" value="false" style="margin-left: 15px;">
+            <ui:Toggle label="Clear ShaderCache" name="ClearShaderCache" tooltip="Recommend enabled." style="margin-left: 15px;" />
+            <ui:TextField picking-mode="Ignore" label="Filename header" name="FileHeader" style="margin-left: 15px;" />
+        </ui:Foldout>
+    </ui:VisualElement>
+    <ui:VisualElement style="height: 10px; flex-shrink: 0;" />
+    <ui:VisualElement name="LogArea" style="flex-shrink: 0;">
+        <ui:VisualElement style="flex-wrap: nowrap; flex-direction: row; justify-content: space-between;">
+            <ui:Label text="Logs" display-tooltip-when-elided="true" />
+            <ui:Button text="Open Directory" display-tooltip-when-elided="true" name="OpenDir" style="align-items: auto; justify-content: flex-start; flex-direction: row; flex-wrap: nowrap;" />
+        </ui:VisualElement>
+        <ui:ScrollView name="LogList" style="margin-left: 20px;" />
+    </ui:VisualElement>
+</ui:UXML>

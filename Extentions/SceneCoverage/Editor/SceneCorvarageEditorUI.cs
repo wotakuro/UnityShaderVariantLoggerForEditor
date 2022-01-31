@@ -15,7 +15,7 @@ namespace UTJ.VariantLogger
 
         public override string toolbar => "Scenes";
 
-        public override int order => 1;
+        public override int order => 10;
 
         private SceneCoverageAnalyzer analyzer;
         private BuildTargetSceneCollector targetSceneCollector;

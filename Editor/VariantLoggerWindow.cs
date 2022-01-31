@@ -33,6 +33,15 @@ namespace UTJ.VariantLogger
             public VariantLoggerWindow parent { get; set; }
             public abstract void OnEnable();
 
+            protected void BroadCastMessage(object obj)
+            {
+                if(parent != null)
+                {
+                    parent.BroadCastMessage(obj, this);
+                }
+            }
+            public virtual void OnRecieveMessage(object obj) { }
+
             public override int GetHashCode()
             {
                 return this.GetType().GetHashCode();
@@ -47,6 +56,7 @@ namespace UTJ.VariantLogger
                 }
                 return true;
             }
+
         }
 
         private static List<System.Type> menuItemTypes = null;
@@ -130,6 +140,20 @@ namespace UTJ.VariantLogger
 
                 ++idx;
             }
+        }
+
+        private void BroadCastMessage(object obj,UIMenuItem src)
+        {
+            if(uiMenuItems == null)
+            {
+                return;
+            }
+            foreach( var item in uiMenuItems)
+            {
+                if(item == src) { continue; }
+                item.OnRecieveMessage(obj);
+            }
+
         }
 
         private void OnChangeToolBar(ChangeEvent<bool> itemValue)

@@ -1,12 +1,4 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:VisualElement name="GeneralConfig" style="flex-shrink: 0;">
-        <ui:Label text="Shader Compile Log at Editor" display-tooltip-when-elided="true" />
-        <ui:Toggle label="Enabled" name="LoggerEnable" style="margin-left: 15px;" />
-        <ui:Foldout text="Advanced" value="false" style="margin-left: 15px;">
-            <ui:Toggle label="Clear ShaderCache" name="ClearShaderCache" tooltip="Recommend enabled." style="margin-left: 15px;" />
-            <ui:TextField picking-mode="Ignore" label="Filename header" name="FileHeader" style="margin-left: 15px;" />
-        </ui:Foldout>
-    </ui:VisualElement>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <ui:VisualElement name="CreateAsset" style="flex-shrink: 0;">
         <ui:Label text="Create ShaderVariantCollection from logs" display-tooltip-when-elided="true" />
         <uie:ObjectField label="ShaderVariantCollection" name="TargetAsset" style="margin-left: 15px;" />

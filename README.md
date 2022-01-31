@@ -5,31 +5,35 @@ Logging the ShaderCompile when running on Editor.
 And then generate the ShadervariantCollection from the "ShaderCompile log".
 
 
-(Currently WindowsOnly)
+Windows 10 - Mac/ Mac (test with Intel MacOS 12.0)
 
 # How to use
 
-Call "Tools/UTJ/ShaderVariantLogger" and open this window.<br />
+Call "Tools/UTJ/ShaderVariantLogger" and open the window.<br />
 
-![Screenshot](Document~/img/VariantLoggerWindow.png "Screenshot")<br />
 
 
 ## 1.logging "Shader Compile"
+![Screenshot](Document~/img/General.png "Screenshot")<br />
 
-If you enabled "1.Enabled", you play on the UnityEditor and then the "ShaderCompiling log" will be generated in "Library/com.utj.shadervariantlogger/logs"<br />
-If you want to access the log , press the "6.Open Directory".
+If you enabled "Enabled", you play on the UnityEditor and then the "ShaderCompiling log" will be generated in "Library/com.utj.shadervariantlogger/logs"<br />
+If you want to access the log , press the "Open Directory".
 
 Also you can generate ShaderVariantCollection by using this log.<br />
 <br />
-※Warning:When you play on the Editor,ShaderCache will be deleted every time.
+When you play on the Editor,ShaderCache will be deleted every time.<br />
+If you want to stop clear the Shader cachefolder,enable "Clear ShaderCache".
+* However some shader compile could be missed when enabling "Clear ShaderCache".
 
 ## 2.Generate ShaderVariantCollection from log.
 
-Press "5.Add Variants from logs".
+![Screenshot](Document~/img/CreateAsset.png "Screenshot")<br />
 
-You can select ShaderVariantCollection Asset that you want to add ShaderVariant by selecting "2.ShaderVariantCollection".
-If "2.ShaderVariant Collection" is none, new file will be generated.
+Press "Add Variants from logs".
 
-If you enabled "3.Delete logs after adding",the ShaderCompile logs will be deleted.
-Also you can configurate which Shader should be added by "4.Shader Path Config Advanced".
+You can select ShaderVariantCollection Asset that you want to add ShaderVariant by selecting "ShaderVariantCollection".
+If "ShaderVariant Collection" is none, new file will be generated.
+
+If you enabled "Delete logs after adding",the ShaderCompile logs will be deleted.
+Also you can configurate which Shader should be added by "Shader Path Config Advanced".
 

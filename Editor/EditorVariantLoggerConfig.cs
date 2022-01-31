@@ -16,7 +16,7 @@ namespace UTJ.VariantLogger
         }
         private const string WorkingDir =  "Library/com.utj.shadervariantlogger";
         private const string ConfigFile = WorkingDir + "/config.txt";
-        public static readonly string SaveDir = WorkingDir + "/logs";
+        public static readonly string LogSaveDir = WorkingDir + "/logs";
 
         private static ConfigData currentConfig;
         public static bool EnableFlag

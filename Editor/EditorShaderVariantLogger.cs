@@ -46,12 +46,12 @@ namespace UTJ.VariantLogger
             ShaderVariantLoggerInterface.SetFrame(0);
             
 
-            if (!Directory.Exists(EditorVariantLoggerConfig.SaveDir))
+            if (!Directory.Exists(EditorVariantLoggerConfig.LogSaveDir))
             {
-                Directory.CreateDirectory(EditorVariantLoggerConfig.SaveDir);
+                Directory.CreateDirectory(EditorVariantLoggerConfig.LogSaveDir);
             }
             var currentTime = System.DateTime.Now;
-            ShaderVariantLoggerInterface.SetupFile(EditorVariantLoggerConfig.SaveDir + "/" +
+            ShaderVariantLoggerInterface.SetupFile(EditorVariantLoggerConfig.LogSaveDir + "/" +
                 EditorVariantLoggerConfig .FileHeader + currentTime.ToString("_yyyyMMdd_HHmmss") + ".log");
         }
 

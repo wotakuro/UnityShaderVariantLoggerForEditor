@@ -16,8 +16,6 @@ namespace UTJ.VariantLogger
 
         private ScrollView logListView;
         private Toggle deleteFlagToggle;
-        private Toggle enagleLoggerToggle;
-        private Toggle clearShaderCacheToggle;
 
         private ObjectField targetObjectField;
         private Button addExecButton;
@@ -28,12 +26,11 @@ namespace UTJ.VariantLogger
         private Toggle includeBuiltInToggle;
         private Toggle includeBuiltInExtraToggle;
         private Toggle includeOthersToggle;
+        
 
-        private TextField fileHeaderTextField;
+        public override string toolbar => "Create Asset";
 
-        public override string toolbar => "General";
-
-        public override int order => 0;
+        public override int order => 1;
 
         public override void OnEnable()
         {
@@ -43,8 +40,6 @@ namespace UTJ.VariantLogger
 
             this.logListView = this.rootVisualElement.Q<ScrollView>("LogList"); 
             this.deleteFlagToggle = this.rootVisualElement.Q<Toggle>("DeleteFlag");
-            this.enagleLoggerToggle = this.rootVisualElement.Q<Toggle>("LoggerEnable");
-            this.clearShaderCacheToggle = this.rootVisualElement.Q<Toggle>("ClearShaderCache");
 
             
             this.targetObjectField = this.rootVisualElement.Q<ObjectField>("TargetAsset");
@@ -59,10 +54,6 @@ namespace UTJ.VariantLogger
             includeOthersToggle = this.rootVisualElement.Q<Toggle>("IncludeOthers"); ;
 
             // setup UI
-            enagleLoggerToggle.value = EditorVariantLoggerConfig.EnableFlag;
-            clearShaderCacheToggle.value = EditorVariantLoggerConfig.ClearShaderCache;
-            enagleLoggerToggle.RegisterValueChangedCallback(OnChangeEnableLogger);
-            clearShaderCacheToggle.RegisterValueChangedCallback(OnChangeClearShaderCache);
             openDirButton.clicked += OnClickOpenDirectory;
             addExecButton.clicked += OnClickAddExecute;
             this.targetObjectField.objectType = typeof(ShaderVariantCollection);
@@ -72,14 +63,6 @@ namespace UTJ.VariantLogger
             includeBuiltInToggle.value = false;
             includeBuiltInExtraToggle.value = false;
             includeOthersToggle.value = false;
-            // set fileHeader
-            fileHeaderTextField = this.rootVisualElement.Q<TextField>("FileHeader");
-            fileHeaderTextField.value = EditorVariantLoggerConfig.FileHeader;
-            fileHeaderTextField.RegisterCallback<FocusOutEvent>((evt) =>
-            {
-                EditorVariantLoggerConfig.FileHeader = fileHeaderTextField.value;
-                Debug.Log("focus out");
-            });
 
             SetupLogListView();
 
@@ -87,7 +70,7 @@ namespace UTJ.VariantLogger
 
         private void SetupLogListView()
         {
-            var files = GetFiles();
+            var files = GeneralSettingsUI.GetFiles();
             this.logListView.Clear();
             foreach (var file in files)
             {
@@ -121,7 +104,7 @@ namespace UTJ.VariantLogger
             }
         }
         private void ExecuteToShaderVariantAsset(ShaderVariantCollection targetAsset,bool deleteFlag) { 
-            var files = this.GetFiles();
+            var files = GeneralSettingsUI.GetFiles();
             int length = files.Count;
             int idx = 0;
             foreach( var file in files)
@@ -153,11 +136,11 @@ namespace UTJ.VariantLogger
 
         private void OnClickOpenDirectory()
         {
-            if (!Directory.Exists(EditorVariantLoggerConfig.SaveDir))
+            if (!Directory.Exists(EditorVariantLoggerConfig.LogSaveDir))
             {
-                Directory.CreateDirectory(EditorVariantLoggerConfig.SaveDir);
+                Directory.CreateDirectory(EditorVariantLoggerConfig.LogSaveDir);
             }
-            EditorUtility.RevealInFinder(EditorVariantLoggerConfig.SaveDir);
+            EditorUtility.RevealInFinder(EditorVariantLoggerConfig.LogSaveDir);
         }
 
         private void OnChangeEnableLogger(ChangeEvent<bool> val)
@@ -169,23 +152,7 @@ namespace UTJ.VariantLogger
         {
             EditorVariantLoggerConfig.ClearShaderCache = val.newValue;
         }
-
-        private List<string> GetFiles()
-        {
-            if (!Directory.Exists(EditorVariantLoggerConfig.SaveDir))
-            {
-                return new List<string>();
-            }
-            var files = Directory.GetFiles(EditorVariantLoggerConfig.SaveDir);
-            var list = new List<string>(files.Length);
-            foreach (var file in files)
-            {
-                list.Add(file);
-            }
-            list.Sort();
-            return list;
-
-        }
+        
 
 
         public void AppendVariantFromLog(ShaderVariantCollection collection ,

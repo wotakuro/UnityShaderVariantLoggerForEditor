@@ -63,7 +63,7 @@ namespace UTJ.VariantLogger
 
         internal void Execute()
         {
-            var dir = EditorVariantLoggerConfig.SaveDir.Replace("/logs", "/scenelogs");
+            var dir = EditorVariantLoggerConfig.LogSaveDir.Replace("/logs", "/scenelogs");
             var files = System.IO.Directory.GetFiles(dir);
 
             foreach (var file in files)
