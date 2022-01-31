@@ -159,7 +159,7 @@ namespace UTJ.VariantLogger
             {
                 if (state.isActive && state.lastActiveFrame >=0)
                 {
-                    this.AppendLoggedSceneInfo(path, 0, state.lastActiveFrame - frame);
+                    this.AppendLoggedSceneInfo(path, 0, frame - state.lastActiveFrame );
                 }
                 state.isActive = false;
                 state.lastActiveFrame = -1;
