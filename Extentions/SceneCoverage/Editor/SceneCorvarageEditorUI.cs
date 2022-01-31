@@ -18,6 +18,7 @@ namespace UTJ.VariantLogger
         public override int order => 1;
 
         private SceneCoverageAnalyzer analyzer;
+        private BuildTargetSceneCollector targetSceneCollector;
 
 
 
@@ -44,8 +45,31 @@ namespace UTJ.VariantLogger
             analyzer.Execute();
             anlyzeBtn.visible = false;
 
+            this.targetSceneCollector = new BuildTargetSceneCollector();
             var res = analyzer.Result;
-            foreach( var val in res)
+
+            var resultArea = this.rootVisualElement.Q<ScrollView>();
+
+            foreach(var scene in targetSceneCollector.Result)
+            {
+                VisualElement row = new VisualElement();
+                var objField = new ObjectField();
+                objField.value = scene.sceneAsset;
+                objField.SetEnabled(false);
+                row.Add(objField);
+
+                Label activeLabel = new Label(analyzer.GetActiveFrame(scene.path).ToString());
+                row.Add(activeLabel);
+                Label loadLabel = new Label(analyzer.GetLoadFrame(scene.path).ToString());
+                row.Add(loadLabel);
+
+                row.style.flexDirection = FlexDirection.Row;
+                row.style.justifyContent = Justify.SpaceBetween;
+                resultArea.Add(row);
+            }
+
+
+            foreach ( var val in res)
             {
                 Debug.Log(val.Value.scenePath + ":" + val.Value.loadFrame + ":" + val.Value.activeFrame );
             }

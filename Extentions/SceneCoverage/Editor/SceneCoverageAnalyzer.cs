@@ -41,7 +41,27 @@ namespace UTJ.VariantLogger
             get { return loggerInfo; }
         }
 
-        public void Execute()
+        internal int GetActiveFrame(string path)
+        {
+            LoggedSceneInfo info;
+            if (loggerInfo.TryGetValue(path, out info))
+            {
+                return info.activeFrame;
+            }
+            return 0;
+        }
+        internal int GetLoadFrame(string path)
+        {
+            LoggedSceneInfo info;
+            if (loggerInfo.TryGetValue(path, out info))
+            {
+                return info.loadFrame;
+            }
+            return 0;
+        }
+
+
+        internal void Execute()
         {
             var dir = EditorVariantLoggerConfig.SaveDir.Replace("/logs", "/scenelogs");
             var files = System.IO.Directory.GetFiles(dir);

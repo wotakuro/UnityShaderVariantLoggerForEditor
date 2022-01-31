@@ -12,15 +12,39 @@ namespace UTJ.VariantLogger
 {
     public class BuildTargetSceneCollector
     {
-        private List<SceneAsset> currentSceneAsset;
-        public List<SceneAsset> Result
+        public struct ResultInfo
+        {
+            public SceneAsset sceneAsset;
+            public string path;
+
+            public ResultInfo(string filePath)
+            {
+                path = filePath;
+                sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(path);
+            }
+            public override int GetHashCode()
+            {
+                return path.GetHashCode();
+            }
+            public override bool Equals(object obj)
+            {
+                if(obj is ResultInfo)
+                {
+                    var target = (ResultInfo)obj;
+                    return target.path == this.path;
+                }
+                return false;
+            }
+        }
+        private List<ResultInfo> currentSceneAsset;
+        public List<ResultInfo> Result
         {
             get { return currentSceneAsset; }
         }
 
         public BuildTargetSceneCollector()
         {
-            currentSceneAsset = new List<SceneAsset>();
+            currentSceneAsset = new List<ResultInfo>();
             AddBuildScene(currentSceneAsset);
             var allPath = this.GetAllScenePath();
             this.AddAssetBundleLabelScene(currentSceneAsset, allPath);
@@ -39,17 +63,17 @@ namespace UTJ.VariantLogger
             return paths;
         }
 
-        private void AddBuildScene(List<SceneAsset> scenes)
+        private void AddBuildScene(List<ResultInfo> scenes)
         {
             var buildScenes = EditorBuildSettings.scenes;
             foreach (var buildScene in buildScenes)
             {
                 if (!buildScene.enabled) { continue; }
-                scenes.Add(AssetDatabase.LoadAssetAtPath<SceneAsset>(buildScene.path));
+                scenes.Add(new ResultInfo(buildScene.path));
             }
         }
 
-        private void AddAssetBundleLabelScene(List<SceneAsset> scenes, List<string> scenePath)
+        private void AddAssetBundleLabelScene(List<ResultInfo> scenes, List<string> scenePath)
         {
             foreach (var path in scenePath)
             {
@@ -58,16 +82,16 @@ namespace UTJ.VariantLogger
                 {
                     continue;
                 }
-                var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(path);
-                if (!scenes.Contains(sceneAsset))
+                var resultInfo = new ResultInfo(path);
+                if (!scenes.Contains(resultInfo))
                 {
-                    scenes.Add(sceneAsset);
+                    scenes.Add(resultInfo);
                 }
 
             }
         }
 
-        private void AddAddressableLabelScenes(List<SceneAsset> scenes, List<string> scenePath)
+        private void AddAddressableLabelScenes(List<ResultInfo> scenes, List<string> scenePath)
         {
 #if VARIANT_LOGGER_COVERAGE_ADDRESSABLE
             var settings = AddressableAssetSettingsDefaultObject.Settings;
@@ -80,10 +104,10 @@ namespace UTJ.VariantLogger
                 }
                 var entry = settings.FindAssetEntry(AssetDatabase.AssetPathToGUID(path));
                 if (entry == null) { continue; }
-                var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(path);
-                if (!scenes.Contains(sceneAsset))
+                var resultInfo = new ResultInfo(path);
+                if (!scenes.Contains(resultInfo))
                 {
-                    scenes.Add(sceneAsset);
+                    scenes.Add(resultInfo);
                 }
             }
 #endif
