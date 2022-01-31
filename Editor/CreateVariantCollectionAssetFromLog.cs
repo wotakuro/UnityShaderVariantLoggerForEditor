@@ -10,7 +10,7 @@ using UnityEngine.Rendering;
 namespace UTJ.VariantLogger
 {
 
-    internal class CreateVariantCollectionAssetFromLog : EditorWindow
+    internal class CreateVariantCollectionAssetFromLog : VariantLoggerWindow.UIMenuItem
     {
         private const string MenuName = "Tools/UTJ/ShaderVariantLogger";
 
@@ -27,16 +27,14 @@ namespace UTJ.VariantLogger
         private Toggle includePackagesToggle;
         private Toggle includeBuiltInToggle;
         private Toggle includeBuiltInExtraToggle;
-        private Toggle includeOthersToggle; 
+        private Toggle includeOthersToggle;
 
-         [MenuItem(MenuName)]
-        public static void Create()
+        public override string toolbar => "General";
+
+        public override int order => 0;
+
+        public override void OnEnable()
         {
-            EditorWindow.GetWindow<CreateVariantCollectionAssetFromLog>();
-        }
-        private void OnEnable()
-        {
-            this.titleContent = new GUIContent("ShaderVariantLogger");
             var tree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.utj.shadervariantlogger/Editor/UXML/VariantCollectionCreateUI.uxml");
 
             this.rootVisualElement.Add(tree.CloneTree());
@@ -145,6 +143,10 @@ namespace UTJ.VariantLogger
 
         private void OnClickOpenDirectory()
         {
+            if (!Directory.Exists(EditorVariantLoggerConfig.SaveDir))
+            {
+                Directory.CreateDirectory(EditorVariantLoggerConfig.SaveDir);
+            }
             EditorUtility.RevealInFinder(EditorVariantLoggerConfig.SaveDir);
         }
 
@@ -309,6 +311,6 @@ namespace UTJ.VariantLogger
             //                PassType.ScriptableRenderPipelineDefaultUnlit
             return PassType.ScriptableRenderPipeline;
         }
-
+        
     }
 }
