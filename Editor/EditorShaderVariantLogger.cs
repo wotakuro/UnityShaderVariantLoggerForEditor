@@ -51,7 +51,8 @@ namespace UTJ.VariantLogger
                 Directory.CreateDirectory(EditorVariantLoggerConfig.SaveDir);
             }
             var currentTime = System.DateTime.Now;
-            ShaderVariantLoggerInterface.SetupFile(EditorVariantLoggerConfig.SaveDir + "/" +currentTime.ToString("yyyyMMdd_HHmmss") + ".log");
+            ShaderVariantLoggerInterface.SetupFile(EditorVariantLoggerConfig.SaveDir + "/" +
+                EditorVariantLoggerConfig .FileHeader + currentTime.ToString("_yyyyMMdd_HHmmss") + ".log");
         }
 
         public static void ReloadShaders() {

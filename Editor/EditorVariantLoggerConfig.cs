@@ -7,19 +7,55 @@ namespace UTJ.VariantLogger
 {
     public class EditorVariantLoggerConfig
     {
-        private const string WorkingDir =  "Library/com.utj.shadervariantlogger";
-        private const string ConfigFile = WorkingDir + "/config.txt";
-        public static readonly string SaveDir = WorkingDir + "/logs";
-
-        public static bool EnableFlag { get; private set; } = false;
-        internal static bool ClearShaderCache { get; private set; } = false;
-
         [System.Serializable]
         struct ConfigData
         {
             public bool flag;
             public bool clearShaderCache;
+            public string fileHeader;
         }
+        private const string WorkingDir =  "Library/com.utj.shadervariantlogger";
+        private const string ConfigFile = WorkingDir + "/config.txt";
+        public static readonly string SaveDir = WorkingDir + "/logs";
+
+        private static ConfigData currentConfig;
+        public static bool EnableFlag
+        {
+            get
+            {
+                return currentConfig.flag;
+            }
+            set
+            {
+                currentConfig.flag = value;
+                SaveConfigData();
+            }
+        }
+        internal static bool ClearShaderCache {
+            get
+            {
+                return currentConfig.clearShaderCache;
+            }
+            set
+            {
+                currentConfig.clearShaderCache = value;
+                SaveConfigData();
+            }
+        }
+        internal static string FileHeader
+        {
+            get
+            {
+                return currentConfig.fileHeader;
+            }
+            set
+            {
+                string old = currentConfig.fileHeader;
+                currentConfig.fileHeader = value;
+                if(old != value) { SaveConfigData(); }
+            }
+        }
+
 
         [InitializeOnLoadMethod]
         internal static void Init()
@@ -28,24 +64,21 @@ namespace UTJ.VariantLogger
             {
                 EnableFlag = false;
                 ClearShaderCache = true;
+                FileHeader = GetDefaultHeader();
                 return;
             }
-            var config = ReadConfigData();
-            EnableFlag = config.flag;
-            ClearShaderCache = config.clearShaderCache;
+            currentConfig = ReadConfigData();
+            if(FileHeader == null)
+            {
+                FileHeader = GetDefaultHeader();
+            }
+        }
+        private static string GetDefaultHeader()
+        {
+            return SystemInfo.deviceName.Replace("/", "").Replace("\\", ""); ;
         }
 
-
-        internal static void SetEnable(bool flag)
-        {
-            EnableFlag = flag;
-            SaveConfigData();
-        }
-        internal static void SetClearShaderCache(bool flag)
-        {
-            ClearShaderCache = flag;
-            SaveConfigData();
-        }
+        
 
 
 
@@ -58,11 +91,7 @@ namespace UTJ.VariantLogger
 
         private static void SaveConfigData()
         {
-            ConfigData data = new ConfigData() { 
-                flag = EnableFlag,
-                clearShaderCache = ClearShaderCache 
-            };
-            var str = JsonUtility.ToJson(data);
+            var str = JsonUtility.ToJson(currentConfig);
             string dir = Path.GetDirectoryName(ConfigFile);
             if (!Directory.Exists(dir))
             {

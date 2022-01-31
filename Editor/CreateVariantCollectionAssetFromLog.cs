@@ -29,6 +29,8 @@ namespace UTJ.VariantLogger
         private Toggle includeBuiltInExtraToggle;
         private Toggle includeOthersToggle;
 
+        private TextField fileHeaderTextField;
+
         public override string toolbar => "General";
 
         public override int order => 0;
@@ -70,6 +72,14 @@ namespace UTJ.VariantLogger
             includeBuiltInToggle.value = false;
             includeBuiltInExtraToggle.value = false;
             includeOthersToggle.value = false;
+            // set fileHeader
+            fileHeaderTextField = this.rootVisualElement.Q<TextField>("FileHeader");
+            fileHeaderTextField.value = EditorVariantLoggerConfig.FileHeader;
+            fileHeaderTextField.RegisterCallback<FocusOutEvent>((evt) =>
+            {
+                EditorVariantLoggerConfig.FileHeader = fileHeaderTextField.value;
+                Debug.Log("focus out");
+            });
 
             SetupLogListView();
 
@@ -152,12 +162,12 @@ namespace UTJ.VariantLogger
 
         private void OnChangeEnableLogger(ChangeEvent<bool> val)
         {
-            EditorVariantLoggerConfig.SetEnable(val.newValue);
+            EditorVariantLoggerConfig.EnableFlag = val.newValue;
         }
 
         private void OnChangeClearShaderCache(ChangeEvent<bool> val)
         {
-            EditorVariantLoggerConfig.SetClearShaderCache(val.newValue);
+            EditorVariantLoggerConfig.ClearShaderCache = val.newValue;
         }
 
         private List<string> GetFiles()

@@ -88,7 +88,10 @@ namespace UTJ.VariantLogger
                 {
                     uiMenuItems.Add(menu);
                     menu.parent = this;
-                    menu.OnEnable();
+                    try
+                    {
+                        menu.OnEnable();
+                    }catch(System.Exception e) { Debug.LogError(e); }
                 }
             }
             uiMenuItems.Sort((a, b) =>
