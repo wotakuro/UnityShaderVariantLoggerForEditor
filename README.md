@@ -7,6 +7,11 @@ And then generate the ShadervariantCollection from the "ShaderCompile log".
 
 Windows 10 - Mac/ Mac (test with Intel MacOS 12.0)
 
+
+There is also a sister tool, [ProfilerModuleForShaderCompile](https://github.com/wotakuro/ProfilerModuleForShaderCompile/).
+This tool provides a ProfilerModule specialized for ShaderCompile information.
+
+
 # How to use
 
 Call "Tools/UTJ/ShaderVariantLogger" and open the window.<br />
