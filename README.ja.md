@@ -4,6 +4,9 @@ UnityEditor上で実行した時に、Shaderコンパイルをログに書き出
 
 対応は、Windows 10 / Mac (Intel MacOS12.0でテスト)
 
+また姉妹ツールの [ProfilerModuleForShaderCompile](https://github.com/wotakuro/ProfilerModuleForShaderCompile/)もあります。
+こちらは ShaderCompile情報に特化したProfilerModuleを提供しています。
+
 # 利用方法
 
 メニューの 「Tools/UTJ/ShaderVariantLogger」でWindowを開きます<br />
