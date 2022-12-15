@@ -234,7 +234,8 @@ namespace UTJ.VariantLogger
 
             variant.shader = shader;
             variant.keywords = GetKeywordArray(keywords);
-            variant.passType = GetPassType(pass);
+            var lightMode = ShaderPassLightModeConverter.GetLightModeByPasssName(shader, pass);
+            variant.passType = GetPassType(lightMode);
 
             return true;
         }
@@ -256,6 +257,10 @@ namespace UTJ.VariantLogger
 
         private static PassType GetPassType(string str)
         {
+            if(str == null)
+            {
+                return PassType.Normal;
+            }
             str = str.ToUpper();
             switch (str)
             {
