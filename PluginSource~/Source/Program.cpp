@@ -143,7 +143,12 @@ extern "C" bool UNITY_INTERFACE_EXPORT _ShaderCompileWatcherForEditorGetEnable(b
 
 static void UNITY_INTERFACE_API SetupCreateMarkerCallback(const UnityProfilerMarkerDesc* markerDesc, void* userData)
 {
-    s_UnityProfilerCallbacks->RegisterMarkerEventCallback(markerDesc, OnProfilerEvent, NULL);
+    if( strncmp(markerDesc->name, "Shader.CompileGPUProgram", 24) == 0 ||
+        strncmp(markerDesc->name, "Shader.CreateGPUProgram", 23) == 0 || 
+        strncmp(markerDesc->name, "ShaderVariantCollection.WarmupShaders", 37) == 0 )
+        {
+            s_UnityProfilerCallbacks->RegisterMarkerEventCallback(markerDesc, OnProfilerEvent, NULL);
+        }
 }
 
 static bool s_IsLoadedPlugin = false;
